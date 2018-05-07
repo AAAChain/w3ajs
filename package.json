@@ -31,17 +31,18 @@
     },
     "repository": {
         "type": "git",
-        "url": "git+https://github.com/bitshares/bitsharesjs.git"
+        "url": "git+https://github.com/PercivalZhang/w3ajs.git"
     },
     "author": "Sigve Kvalsvik <bitsharesblocks@gmail.com> (https://github.com/svk31)",
     "contributors": [
         "James Calfee <james@jcalfee.info> (https://github.com/jcalfee/)",
         "Daniel Larimer <dan@cryptonomex.com> (https://github.com/bytemaster/)",
-        "Valentine Zavgorodnev <valentine.zavgorodnev@gmail.com> (https://github.com/valzav/)"
+        "Valentine Zavgorodnev <valentine.zavgorodnev@gmail.com> (https://github.com/valzav/)",
+        "Percival Zhang <mingqi@email.com> (https://github.com/PercivalZhang/)"
     ],
     "license": "MIT",
     "bugs": {
-        "url": "https://github.com/bitshares/bitsharesjs/issues"
+        "url": "https://github.com/AAAChain/AAAChain/issues"
     },
     "engines": {
         "node": ">= 6.0.0"
