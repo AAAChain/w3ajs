@@ -35,9 +35,6 @@
     },
     "author": "Sigve Kvalsvik <bitsharesblocks@gmail.com> (https://github.com/svk31)",
     "contributors": [
-        "James Calfee <james@jcalfee.info> (https://github.com/jcalfee/)",
-        "Daniel Larimer <dan@cryptonomex.com> (https://github.com/bytemaster/)",
-        "Valentine Zavgorodnev <valentine.zavgorodnev@gmail.com> (https://github.com/valzav/)",
         "Percival Zhang <mingqi@email.com> (https://github.com/PercivalZhang/)"
     ],
     "license": "MIT",
