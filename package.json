@@ -1,6 +1,6 @@
 {
     "name": "w3ajs",
-    "version": "1.0.16",
+    "version": "1.0.20",
     "description": "Pure JavaScript library for node.js and browsers.",
     "browser": {
         "ws": false,
