@@ -39,7 +39,7 @@
     ],
     "license": "MIT",
     "bugs": {
-        "url": "https://github.com/AAAChain/AAAChain/issues"
+        "url": "https://github.com/AAAChain/w3ajs/issues"
     },
     "engines": {
         "node": ">= 6.0.0"

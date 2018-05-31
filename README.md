@@ -54,10 +54,21 @@ The ChainStore has several useful methods to retrieve, among other things, objec
 
 ```
 import {Apis} from "w3ajs-ws";
-var {ChainStore} = require("w3ajs");
-
-Apis.instance("ws://47.98.107.96:21012", true).init_promise.then((res) => {
+let {ChainStore, FetchChain, PrivateKey, key, TransactionBuilder} = require("w3ajs");
+    
+let seed = "Let beautiful be a hello in the southwest of the cannon gun go them city the atmosphere from the wate";
+// generate private key from seed words
+let privatekey = PrivateKey.fromSeed( key.normalize_brainKey(seed) );
+// generate public key from private key
+let publickey = privatekey.toPublicKey();
+console.log(publickey.toPublicKeyString());
+    
+Apis.instance("ws://[ip]:[port]", true).init_promise.then((res) => {
     console.log("connected to:", res[0].network);
+    // get account by name
+    Apis.instance().db_api().exec( "get_account_by_name", [ name ]).then(function(account) {
+        console.log(account);
+    });
     ChainStore.init().then(() => {
         ChainStore.subscribe(updateState);
     });
@@ -88,7 +99,67 @@ console.log("Public key :", pkey.toPublicKey().toString(), "\n");
 ```
 
 #### Transactions
-TODO transaction signing example
+```
+let {ChainStore, FetchChain, PrivateKey, key, Aes, ops, hash, Signature, TransactionHelper, TransactionBuilder} = require("w3ajs");
+function callback_thx_broadcast_ok(id) {
+    console.log("transaction - " + id + " has been sent to chain network.");
+}
+ChainStore.init().then(() => {
+    let fromAccountName = "nathan";
+    let memoSenderName = "nathan";
+    let sendAmount = {
+        amount: 1000,
+        asset: "AAA"
+    };
+    let tr = new TransactionBuilder();
+    Promise.all([
+        FetchChain("getAccount", fromAccountName),
+        FetchChain("getAccount", "shenbaiwan"),
+        FetchChain("getAccount", memoSenderName),
+        FetchChain("getAsset", sendAmount.asset),
+        FetchChain("getAsset", sendAmount.asset)
+    ]).then((res) => {
+        // console.log("got data:", res);
+        let [fromAccount, toAccount, memoSender, sendAsset, feeAsset] = res;
+        if(typeof memo === 'string' || memo instanceof String)
+           memo = new Buffer(memo);
+        // Memos are optional, but if you have one you need to encrypt it here
+        let memoFromKey = memoSender.getIn(["options", "memo_key"]);
+        console.log("memo pub key:", memoFromKey);
+        let memoToKey = toAccount.getIn(["options", "memo_key"]);
+        console.log("memo to key:", memoToKey);
+        let nonce = TransactionHelper.unique_nonce_uint64();
+
+        let memo_object = {
+            from: memoFromKey,
+            to: memoToKey,
+            nonce,
+            message: Aes.encrypt_with_checksum(
+                pKey,
+                memoToKey,
+                nonce,
+                memo
+            )
+        };
+        tr.add_type_operation("transfer", {
+            fee: {
+                amount: 0,
+                asset_id: feeAsset.get("id")
+            },
+            from: fromAccount.get("id"),
+            to: toAccount.get("id"),
+            amount: {amount: sendAmount.amount, asset_id: sendAsset.get("id")},
+            memo: memo_object
+        });
+        tr.add_signer(pKey);
+        return tr.set_required_fees();
+    }).then(() => {
+        return tr.broadcast(callback_thx_broadcast_ok);
+    }).catch((ex) => {
+        console.log(ex);
+    });
+});
+```
 
 ## ESDoc (beta)
 ```bash
